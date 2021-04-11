@@ -1,0 +1,35 @@
+extends layout 
+block content 
+    h1.pb-3=title  
+    if errors 
+        each error in errors 
+            .alert=error
+    form.row.g-3(enctype="multipart/form-data" action = "/posts/add" method='post')
+        .mb-3.row
+            label.col-sm-2.col-form-label Title
+            .col-sm-10
+                input.form-control(type='text' name='title')
+        .mb-3.row
+            label.col-sm-2.col-form-label Category
+            .col-sm-10
+                select.form-control(name='category')
+                    if categories
+                        each category in categories 
+                            option(value=category.name)=category.name
+        .mb-3.row
+            label.col-sm-2.col-form-label Body
+            .col-sm-10
+                textarea.form-control(type='text' name='postbody')
+        .mb-3.row
+            label.col-sm-2.col-form-label Main image
+            .col-sm-10
+                input.form-control(type='file' name='mainimage')
+        .mb-3.row
+            label.col-sm-2.col-form-label Author
+            .col-sm-10
+                select.form-select(name='author')
+                    option(selected) Author
+                    option(value='Bravi') Bravi
+                    option(value='Bravi1') Bravi1
+        .col-12
+            button.btn.btn-primary(type='submit' name='submit' value='save') Save

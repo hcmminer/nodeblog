@@ -7,15 +7,15 @@ html
     link(rel='stylesheet' href='/stylesheets/style.css')
   body
     .container.bodyhome
-      img(src="images/nodebloglogo.png" class="img-fluid rounded mx-auto d-block pt-0" alt="...")
+      img(src="/images/nodebloglogo.png" class="img-fluid rounded mx-auto d-block pt-0" alt="...")
       ul.nav.bg-dark
         li.nav-item
           a.nav-link.active(aria-current='page' href='/') Home
         li.nav-item
           a.nav-link(href='/posts/add') Add Post
         li.nav-item
-          a.nav-link(href='categories/add') Add Category
+          a.nav-link(href='/categories/add') Add Category
       block content
-      footer NodeBlog &copy; 2021
+      footer.mt-5 NodeBlog &copy; 2021
 
 
