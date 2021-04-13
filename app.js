@@ -13,8 +13,9 @@ var mongoose = require("mongoose");
 var db = require("monk")("localhost/nodeblog");
 // var upload = multer({ dest: 'uploads/' });
 
-var indexRouter = require("./routes/index");
-var postsRouter = require("./routes/posts");
+var index = require("./routes/index");
+var posts = require("./routes/posts");
+var categories = require("./routes/categories");
 
 var app = express();
 
@@ -70,8 +71,9 @@ app.use(
 // 	next();
 // });
 
-app.use("/", indexRouter);
-app.use("/posts", postsRouter);
+app.use("/", index);
+app.use("/posts", posts);
+app.use("/categories", categories);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
