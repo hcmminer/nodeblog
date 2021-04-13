@@ -9,6 +9,7 @@ const { body } = require("express-validator");
 var router = express.Router();
 
 /* GET users listing. */
+
 router.get("/add", function (req, res, next) {
 	const categories = db.get("categories");
 	categories.find({}).then((resolve, reject) => {

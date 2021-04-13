@@ -6,6 +6,7 @@ db.then(() => {
 	console.log("Connected correctly to server");
 });
 /* GET home page. */
+
 router.get("/", function (req, res, next) {
 	var posts = db.get("posts");
 	posts.find({}).then((posts) => {
