@@ -55,8 +55,6 @@ router.post("/add", upload.single("mainimage"), function (req, res, next) {
 				if (reject) {
 					res.send(reject);
 				} else {
-					console.log(resolve,"resolve");
-					
 					res.redirect('/');
 				}
 			});
