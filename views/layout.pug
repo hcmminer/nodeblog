@@ -15,6 +15,9 @@ html
           a.nav-link(href='/posts/add') Add Post
         li.nav-item
           a.nav-link(href='/categories/add') Add Category
+      if locals.messages
+        each message,key in messages
+          .alert(class="alert-"+key+ " mt-3")=message
       block content
       footer.mt-5 NodeBlog &copy; 2021
 

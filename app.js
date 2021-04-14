@@ -2,16 +2,13 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
-// var logger = require("morgan");
+const flash = require("connect-flash");
 var session = require("express-session");
-// var multer = require("multer");
 var moment = require("moment");
 var expressValidator = require("express-Validator");
 var mongodb = require("mongodb");
 var mongoose = require("mongoose");
-
 var db = require("monk")("localhost/nodeblog");
-// var upload = multer({ dest: 'uploads/' });
 
 var index = require("./routes/index");
 var posts = require("./routes/posts");
@@ -19,14 +16,12 @@ var categories = require("./routes/categories");
 
 var app = express();
 
-
 app.locals.moment = moment;
+// app.locals.message();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
-
-// app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -36,40 +31,16 @@ app.use(express.static("public"));
 app.use(
 	session({
 		secret: "secret",
-		saveUninitialized: true,
-		resave: true,
+		saveUninitialized: false,
+		resave: false,
+		cookie: { httpOnly: true },
 	})
 );
-
-// // Express Validator
-// app.use(expressValidator({
-//   errorFormatter: function(param, msg, value) {
-//       var namespace = param.split('.')
-//       , root    = namespace.shift()
-//       , formParam = root;
-
-//     while(namespace.length) {
-//       formParam += '[' + namespace.shift() + ']';
-//     }
-//     return {
-//       param : formParam,
-//       msg   : msg,
-//       value : value
-//     };
-//   }
-// }));
-
-// connect-flash
-// app.use(require("connect-flash"));
-// app.use((req, res, next) => {
-// 	res.locals.messages = require("express-messages")(req, res);
-// 	next();
-// });
-
-// make our db accessible to our router
-// app.use((req, res, next) => {
-// 	next();
-// });
+app.use(flash());
+app.use((req, res, next) => {
+	res.locals.messages = req.flash();
+	next();
+});
 
 app.use("/", index);
 app.use("/posts", posts);

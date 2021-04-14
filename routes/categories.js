@@ -2,9 +2,11 @@
 const { validationResult } = require("express-validator");
 // var upload = multer({ dest: "uploads/" });
 var mongodb = require("mongodb");
+var flash = require('connect-flash');
 const db = require("monk")("localhost/nodeblog");
 
 var express = require("express");
+var app = express();
 const { body } = require("express-validator");
 var router = express.Router();
 
@@ -39,8 +41,10 @@ router.post("/add", function (req, res, next) {
 				if (reject) {
 					res.send(reject);
 				} else {
+                    // res.sendStatus(req.flash('info', 'Flash is back!') || 500);
+                    req.flash('success', 'category added');
 					res.redirect("/");
-				}
+				} 
 			});
 	}
 });
