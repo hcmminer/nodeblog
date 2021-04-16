@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .post
+        h1=post.title
+        p.meta 
+            | Posted in 
+            a(href="/categories/show/" + post.category) #{post.category} 
+            | by #{post.author} 
+            | on #{moment(post.date).format("DD-MM-YYYY")} 
+        img.rounded.mx-auto.d-block.w-25(src='/images/'+ post.mainimage)
+        //-s2: !=post.body
+        #text !{post.body}
+        
+

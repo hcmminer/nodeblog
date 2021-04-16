@@ -15,5 +15,5 @@ block content
         img.rounded.mx-auto.d-block.w-25(src='/images/'+ post.mainimage)
         //-s2: !=post.body
         #text !{truncateText(post.body,600)}
-        a.more(href='/posts/show/#{post._id}' class='link') Read more
+        a.more(href='/posts/show/'+post._id class='link') Read more
 

@@ -1,7 +1,6 @@
 var multer = require("multer");
 const { validationResult } = require("express-validator");
 var upload = multer({ dest: "./public/images" });
-var mongodb = require("mongodb");
 const db = require("monk")("localhost/nodeblog");
 
 var express = require("express");
@@ -9,7 +8,14 @@ const { body } = require("express-validator");
 var router = express.Router();
 
 /* GET users listing. */
-
+router.get("/show/:id", function (req, res, next) {
+	var posts = db.get("posts");
+	posts.findOne({ _id: req.params.id }).then((post, reject) => {
+		res.render("show", {
+			post: post,
+		});
+	});
+});
 router.get("/add", function (req, res, next) {
 	const categories = db.get("categories");
 	categories.find({}).then((resolve, reject) => {
@@ -26,9 +32,9 @@ router.post("/add", upload.single("mainimage"), function (req, res, next) {
 	const category = req.body.category;
 	const date = new Date();
 	let mainimage = "noimage.jpg";
-	console.log("file",req.file);
+	console.log("file", req.file);
 	if (req.file) {
-		 mainimage = req.file.filename;
+		mainimage = req.file.filename;
 	}
 
 	// form validation
@@ -55,8 +61,8 @@ router.post("/add", upload.single("mainimage"), function (req, res, next) {
 				if (reject) {
 					res.send(reject);
 				} else {
-					req.flash('success', 'Post added');
-					res.redirect('/');
+					req.flash("success", "Post added");
+					res.redirect("/");
 				}
 			});
 	}
