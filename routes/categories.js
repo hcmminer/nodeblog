@@ -2,7 +2,7 @@
 const { validationResult } = require("express-validator");
 // var upload = multer({ dest: "uploads/" });
 var mongodb = require("mongodb");
-var flash = require('connect-flash');
+var flash = require("connect-flash");
 const db = require("monk")("localhost/nodeblog");
 
 var express = require("express");
@@ -11,6 +11,16 @@ const { body } = require("express-validator");
 var router = express.Router();
 
 /* GET users listing. */
+
+router.get("/show/:category", function (req, res, next) {
+	const posts = db.get("posts");
+	posts.find({ category: req.params.category }, {}).then((resolve, reject) => {
+		res.render("index", {
+			title: req.params.category,
+			posts: resolve
+		});
+	});
+});
 
 router.get("/add", function (req, res, next) {
 	const categories = db.get("categories");
@@ -41,10 +51,10 @@ router.post("/add", function (req, res, next) {
 				if (reject) {
 					res.send(reject);
 				} else {
-                    // res.sendStatus(req.flash('info', 'Flash is back!') || 500);
-                    req.flash('success', 'category added');
+					// res.sendStatus(req.flash('info', 'Flash is back!') || 500);
+					req.flash("success", "category added");
 					res.redirect("/");
-				} 
+				}
 			});
 	}
 });

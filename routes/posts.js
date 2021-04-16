@@ -1,6 +1,6 @@
 var multer = require("multer");
 const { validationResult } = require("express-validator");
-var upload = multer({ dest: "uploads/" });
+var upload = multer({ dest: "./public/images" });
 var mongodb = require("mongodb");
 const db = require("monk")("localhost/nodeblog");
 
@@ -55,6 +55,7 @@ router.post("/add", upload.single("mainimage"), function (req, res, next) {
 				if (reject) {
 					res.send(reject);
 				} else {
+					req.flash('success', 'Post added');
 					res.redirect('/');
 				}
 			});

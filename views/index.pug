@@ -1,14 +1,19 @@
 extends layout
 
 block content
-  
+
   if posts
     each post, i in posts 
       .post
         h1
           a(href='/posts/show/#{post._id}')=post.title
-        p.meta Posted in #{post.category} by #{post.author} on #{moment(post.date).format("DD-MM-YYYY")} 
-        #text !{post.body}
-        
-        a.more(href='/posts/show/#{post._id}' class='link') Read more  
+        p.meta 
+          | Posted in 
+          a(href="/categories/show/" + post.category) #{post.category} 
+          | by #{post.author} 
+          | on #{moment(post.date).format("DD-MM-YYYY")} 
+        img.rounded.mx-auto.d-block.w-25(src='/images/'+ post.mainimage)
+        //-s2: !=post.body
+        #text !{truncateText(post.body,600)}
+        a.more(href='/posts/show/#{post._id}' class='link') Read more
 

@@ -7,8 +7,9 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "uploads"
-    ]
+      
+    ],
+    "delay": 2500
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^27.0.0",
