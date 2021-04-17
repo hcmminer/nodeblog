@@ -68,4 +68,52 @@ router.post("/add", upload.single("mainimage"), function (req, res, next) {
 	}
 });
 
+router.post("/addcomment", function (req, res, next) {
+	const postId = req.body.postId;
+	console.log(postId,"postid....")
+	const name = req.body.name;
+	const commentbody = req.body.body;
+	const email = req.body.email;
+	const commentDate = new Date();
+
+	// form validation
+	body("name").notEmpty();
+	body("commentbody").notEmpty();
+	body("email").isEmail();
+	// check errors and save to databases
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		const posts = db.get("posts");
+		posts.findOne({ _id: postId }).then((post, reject) => {
+			res.render("show", {
+				errors: errors,
+				post: post,
+			});
+		});
+	} else {
+		const comment = {
+			name: name,
+			commentbody: commentbody,
+			email: email,
+			commentDate: commentDate,
+		};
+		const posts = db.get("posts");
+		posts
+			.update(
+				{ _id: postId },
+				{
+					$push: { comments: comment },
+				}
+			)
+			.then((resolve, reject) => {
+				if (reject) {
+					res.send(reject);
+				} else {
+					req.flash("success", "comment added");
+					res.redirect("/posts/show/" + postId);
+				}
+			});
+	}
+});
+
 module.exports = router;
